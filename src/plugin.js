@@ -186,6 +186,10 @@ export default function ({ types: t }) {
 
         const { callee: { name: calleeName }, arguments: args } = path.node;
 
+        if (calleeName === '__webpack_require__') {
+          path.node.callee.name = 'require'; // eslint-disable-line
+        }
+
         if (calleeName !== 'require' || !args.length || !t.isStringLiteral(args[0])) {
           return;
         }
